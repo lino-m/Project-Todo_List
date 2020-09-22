@@ -15,6 +15,7 @@ const filterOption = document.querySelector(".filter-todo");
 todoButton.addEventListener("click", addTodo);
 todoList.addEventListener("click", deleteCheck);
 filterOption.addEventListener("click", filterTodo);
+document.addEventListener("DOMContentLoaded", getTodos);
 
 // Functions
 
@@ -30,6 +31,8 @@ function addTodo(event) {
   newTodo.classList.add("todo-item");
   //   Append new todo into todo div
   todoDiv.appendChild(newTodo);
+  // later with local storage
+  saveLocalTodos(todoInput.value);
   //   Add a completed button
   const completedButton = document.createElement("button");
   completedButton.innerHTML = '<i class="fas fa-check"></i>';
@@ -83,5 +86,61 @@ function filterTodo(e) {
           todo.style.display = "none";
         }
     }
+  });
+}
+
+// LOCAL STORAGE
+
+function saveLocalTodos(todo) {
+  let todos;
+  if (localStorage.getItem("todos") === null) {
+    todos = [];
+  } else {
+    todos = JSON.parse(localStorage.getItem("todos"));
+  }
+  todos.push(todo);
+  localStorage.setItem("todos", JSON.stringify(todos));
+}
+function removeLocalTodos(todo) {
+  let todos;
+  if (localStorage.getItem("todos") === null) {
+    todos = [];
+  } else {
+    todos = JSON.parse(localStorage.getItem("todos"));
+  }
+  const todoIndex = todo.children[0].innerText;
+  todos.splice(todos.indexOf(todoIndex), 1);
+  localStorage.setItem("todos", JSON.stringify(todos));
+}
+
+function getTodos() {
+  let todos;
+  if (localStorage.getItem("todos") === null) {
+    todos = [];
+  } else {
+    todos = JSON.parse(localStorage.getItem("todos"));
+  }
+  todos.forEach(function (todo) {
+    // Create TODO DIV
+    const todoDiv = document.createElement("div");
+    todoDiv.classList.add("todo");
+    //   Create List Item = todo
+    const newTodo = document.createElement("li");
+    newTodo.innerText = todo;
+    newTodo.classList.add("todo-item");
+    //   Append new todo into todo div
+    todoDiv.appendChild(newTodo);
+    //   Add a completed button
+    const completedButton = document.createElement("button");
+    completedButton.innerHTML = '<i class="fas fa-check"></i>';
+    completedButton.classList.add("complete-btn");
+    todoDiv.appendChild(completedButton);
+    //   Add a delete button
+    const deleteButton = document.createElement("button");
+    deleteButton.innerHTML = '<i class="fas fa-minus-square"></i>';
+    deleteButton.classList.add("delete-btn");
+    todoDiv.appendChild(deleteButton);
+    //   APPEND TO LIST
+    todoList.appendChild(todoDiv);
   });
 }
