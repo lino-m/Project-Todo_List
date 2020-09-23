@@ -17,3 +17,5 @@ Open points // Possible Improvements:
 1. Style is basic (but not too bad)
 2. The state of the todo, i.e. completed or not is not saved in local storge => not recreated after the page is refreshed
 3. Task could be dragged and dropped by the user -> as method of prioritization
+
+![Image of Todo List](https://github.com/lino-m/Project-Todo_List/blob/master/images/Bildschirmfoto%202020-09-22%20um%2011.26.10.png)
